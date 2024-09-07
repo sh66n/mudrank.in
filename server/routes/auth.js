@@ -1,6 +1,8 @@
+require("dotenv").config();
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 router.post("/signup", async (req, res) => {
   const { email, username, password } = req.body;
@@ -19,7 +21,18 @@ router.post("/login", async (req, res) => {
       currUser.hashedPassword
     );
     if (isAuthenticated) {
-      res.status(200).json(currUser);
+      const accessToken = jwt.sign(
+        { id: currUser._id },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: 259200000, // 3 days
+        }
+      );
+      res.json({
+        username: currUser.username,
+        id: currUser._id,
+        accessToken,
+      });
     } else {
       res.status(401).json({
         message: "incorrect username or password",

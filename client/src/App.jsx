@@ -6,11 +6,14 @@ import Landing from "./views/Landing";
 import createStore from "react-auth-kit/createStore";
 import AuthProvider from "react-auth-kit";
 import Login from "./views/Login";
+import RequireAuth from "@auth-kit/react-router/RequireAuth";
+import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
+import Users from "./views/Users";
 
 function App() {
   const store = createStore({
-    authName: "_auth",
     authType: "cookie",
+    authName: "jwt",
     cookieDomain: window.location.hostname,
     cookieSecure: window.location.protocol === "https:",
   });
@@ -19,7 +22,10 @@ function App() {
     <AuthProvider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route element={<AuthOutlet fallbackPath="/login" />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/users" element={<Users />} />
+          </Route>
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
