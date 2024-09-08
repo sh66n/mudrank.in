@@ -8,7 +8,6 @@ import AuthProvider from "react-auth-kit";
 import Login from "./views/Login";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
-import Users from "./views/Users";
 
 function App() {
   const store = createStore({
@@ -24,7 +23,6 @@ function App() {
         <Routes>
           <Route element={<AuthOutlet fallbackPath="/login" />}>
             <Route path="/" element={<Landing />} />
-            <Route path="/users" element={<Users />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [loginFailed, setLoginFailed] = useState(false);
@@ -15,6 +16,9 @@ export default function LoginForm() {
 
   //react auth kit
   const signIn = useSignIn();
+
+  //react router dom
+  const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
     try {
@@ -36,7 +40,7 @@ export default function LoginForm() {
         })
       ) {
         setLoginFailed(false);
-        console.log("logged in");
+        navigate("/");
       }
     } catch (error) {
       setLoginFailed(true);

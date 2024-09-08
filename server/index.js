@@ -17,15 +17,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const authRoutes = require("./routes/auth");
+const stampRoutes = require("./routes/stamp");
 
 app.use(express.json());
 app.use("/api", authRoutes);
-
-const User = require("./models/user");
-app.get("/api/users", verifyToken, async (req, res) => {
-  const allUsers = await User.find({});
-  res.status(200).json(allUsers);
-});
+app.use("/api/stamps", stampRoutes);
 
 app.listen(PORT, () => {
   console.log(`server listening at port ${PORT}`);
