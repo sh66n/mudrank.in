@@ -8,6 +8,7 @@ import AuthProvider from "react-auth-kit";
 import Login from "./views/Login";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
+import Signup from "./views/Signup";
 
 function App() {
   const store = createStore({
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Landing />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

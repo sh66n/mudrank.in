@@ -4,8 +4,11 @@ import axios from "axios";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginForm() {
-  const [loginFailed, setLoginFailed] = useState(false);
+export default function SignupForm() {
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+
+  const [signupFailed, setSignupFailed] = useState(false);
 
   const {
     register,
@@ -13,60 +16,62 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm();
 
-  const signIn = useSignIn();
-  const navigate = useNavigate();
-
   const onSubmit = async (formData) => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/login`,
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/signup`,
         formData
       );
       if (
         signIn({
           auth: {
-            token: res.data.accessToken,
+            token: data.accessToken,
             type: "Bearer",
           },
           userState: {
-            id: res.data.id,
-            username: res.data.username,
-            accessToken: res.data.accessToken,
+            ...data,
           },
         })
       ) {
-        setLoginFailed(false);
+        setSignupFailed(false);
         navigate("/");
       }
-    } catch (error) {
-      setLoginFailed(true);
-      console.log(error);
+    } catch (e) {
+      setSignupFailed(true);
+      console.log(e);
     }
   };
 
   return (
     <div>
-      <h1 className="text-xl">Login</h1>
+      <h1 className="text-xl">Signup</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
+          {...register("email", { required: true })}
+          placeholder="Email"
+          type="email"
+        />
+        {errors.email && <span>This field is required</span>}
+        <input
           {...register("username", { required: true })}
-          type="text"
           placeholder="Username"
+          type="text"
         />
         {errors.username && <span>This field is required</span>}
-
         <input
           {...register("password", { required: true })}
-          type="password"
           placeholder="Password"
+          type="password"
         />
         {errors.password && <span>This field is required</span>}
 
-        <button type="submit"> Login </button>
-        {loginFailed && (
-          <div className="text-red-600 bold">Invalid username or password</div>
-        )}
+        <button type="submit">Register</button>
       </form>
+      {signupFailed && (
+        <span className="text-red-600 bold">
+          Something went wrong. Please try again.
+        </span>
+      )}
     </div>
   );
 }
