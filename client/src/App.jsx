@@ -9,6 +9,10 @@ import Login from "./views/Login";
 import RequireAuth from "@auth-kit/react-router/RequireAuth";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 import Signup from "./views/Signup";
+import CircleDashboard from "./views/CircleDashboard";
+import CircleLogin from "./views/CircleLogin";
+import Unauthorized from "./views/Unauthorized";
+import NotFound from "./views/NotFound";
 
 function App() {
   const store = createStore({
@@ -25,8 +29,15 @@ function App() {
           <Route element={<AuthOutlet fallbackPath="/login" />}>
             <Route path="/" element={<Landing />} />
           </Route>
+          <Route element={<AuthOutlet fallbackPath="/circle-login" />}>
+            <Route path="/dashboard" element={<CircleDashboard />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/circle-login" element={<CircleLogin />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

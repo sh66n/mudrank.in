@@ -1,5 +1,6 @@
 require("dotenv").config();
 const User = require("../models/user");
+const PostalCircle = require("../models/postalCircle");
 const errorResponse = require("../utils/error");
 
 const bcrypt = require("bcrypt");
@@ -57,7 +58,42 @@ const loginUser = async (req, res) => {
   }
 };
 
+const loginCircle = async (req, res) => {
+  const { username, password } = req.body;
+  const currCircle = await PostalCircle.findOne({ username });
+  if (currCircle) {
+    const isAuthenticated = await bcrypt.compare(
+      password,
+      currCircle.hashedPassword
+    );
+    if (isAuthenticated) {
+      const accessToken = jwt.sign(
+        { id: currCircle._id, isCircle: true },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: 259200000, // 3 days
+        }
+      );
+      res.json({
+        username: currCircle.username,
+        id: currCircle._id,
+        isCircle: true,
+        accessToken,
+      });
+    } else {
+      res.status(401).json({
+        message: "Incorrect username or password.",
+      });
+    }
+  } else {
+    res.status(404).json({
+      message: "Circle not found.",
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  loginCircle,
 };
