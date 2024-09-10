@@ -11,7 +11,7 @@ export default function CircleDashboard() {
     if (!auth.isCircle) {
       navigate("/unauthorized");
     }
-  }, [auth.isCircle, navigate]);
+  }, [auth.isCircle]);
 
   return (
     <div>

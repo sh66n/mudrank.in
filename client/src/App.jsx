@@ -13,6 +13,7 @@ import CircleDashboard from "./views/CircleDashboard";
 import CircleLogin from "./views/CircleLogin";
 import Unauthorized from "./views/Unauthorized";
 import NotFound from "./views/NotFound";
+import CreateStamp from "./views/CreateStamp";
 
 function App() {
   const store = createStore({
@@ -31,6 +32,7 @@ function App() {
           </Route>
           <Route element={<AuthOutlet fallbackPath="/circle-login" />}>
             <Route path="/dashboard" element={<CircleDashboard />} />
+            <Route path="/dashboard/materials/new" element={<CreateStamp />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
