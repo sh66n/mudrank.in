@@ -31,7 +31,6 @@ export default function LoginForm() {
           userState: {
             id: res.data.id,
             username: res.data.username,
-            accessToken: res.data.accessToken,
           },
         })
       ) {

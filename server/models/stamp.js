@@ -1,18 +1,24 @@
 const mongoose = require("mongoose");
+const PostalCircle = require("../models/postalCircle");
 const stampSchema = new mongoose.Schema({
   price: {
     type: Number,
     min: 0,
     required: true,
   },
-  img: String,
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   title: {
     type: String,
     required: true,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "PostalCircle",
   },
 });
 

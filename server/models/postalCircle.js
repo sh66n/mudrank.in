@@ -5,6 +5,7 @@ const postalCircleSchema = new mongoose.Schema({
     required: true,
   },
   username: {
+    type: String,
     enum: [
       "AP",
       "AS",
@@ -32,7 +33,7 @@ const postalCircleSchema = new mongoose.Schema({
     ],
     required: true,
   },
-  password: {
+  hashedPassword: {
     type: String,
     required: true,
   },

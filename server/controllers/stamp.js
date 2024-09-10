@@ -14,6 +14,14 @@ const createNewStamp = async (req, res) => {
   try {
     const { title, price } = req.body;
     const newStamp = await Stamp.create({ title, price });
+    newStamp.images = req.files.map((img) => {
+      return {
+        url: img.path,
+        filename: img.filename,
+      };
+    });
+    newStamp.author = req.user.id;
+    newStamp.save();
     res.status(200).json(newStamp);
   } catch (e) {
     errorResponse(res, e);
