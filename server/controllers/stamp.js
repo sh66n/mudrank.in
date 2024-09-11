@@ -3,7 +3,7 @@ const errorResponse = require("../utils/error");
 
 const getAllStamps = async (req, res) => {
   try {
-    const allStamps = await Stamp.find({});
+    const allStamps = await Stamp.find({}).populate("author");
     res.status(200).json(allStamps);
   } catch (e) {
     errorResponse(res, e);
@@ -31,7 +31,7 @@ const createNewStamp = async (req, res) => {
 const getStampById = async (req, res) => {
   try {
     const { id } = req.params;
-    const requestedStamp = await Stamp.findById(id);
+    const requestedStamp = await Stamp.findById(id).populate("author");
     res.status(200).json(requestedStamp);
   } catch (e) {
     errorResponse(res, e);

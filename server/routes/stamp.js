@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { verifyCircle } = require("../middlewares");
+const { verifyToken, verifyCircle } = require("../middlewares");
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const upload = multer({ storage });
@@ -14,7 +14,7 @@ const {
 
 router
   .route("/")
-  .get(verifyCircle, getAllStamps)
+  .get(verifyToken, getAllStamps)
   .post(verifyCircle, upload.array("img"), createNewStamp);
 
 router
