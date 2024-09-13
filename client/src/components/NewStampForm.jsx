@@ -3,10 +3,13 @@ import { useForm } from "react-hook-form";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import axios from "axios";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { useNavigate } from "react-router-dom";
 
 export default function NewStampForm() {
   const auth = useAuthUser();
   const authHeader = useAuthHeader();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,6 +36,7 @@ export default function NewStampForm() {
           },
         }
       );
+      navigate("/dashboard");
     } catch (e) {
       console.log(e);
     }
@@ -48,7 +52,11 @@ export default function NewStampForm() {
         />
         {errors.title && <span>This field is required</span>}
 
-        <input {...register("price", { required: true })} type="number" />
+        <input
+          {...register("price", { required: true })}
+          type="number"
+          placeholder="Price"
+        />
         {errors.price && <span>This field is required</span>}
         <input
           {...register("img", { required: true })}

@@ -22,6 +22,20 @@ const stampSchema = new mongoose.Schema({
   },
 });
 
+stampSchema.set("toObject", { virtuals: true });
+stampSchema.set("toJSON", { virtuals: true });
+
+stampSchema.virtual("crop").get(function () {
+  return this.images.map((image) => {
+    const newImageUrl = image.url?.replace(
+      "/upload",
+      "/upload/c_fill,h_500,w_500"
+    );
+    image.url = newImageUrl;
+    return image;
+  });
+});
+
 const Stamp = mongoose.model("Stamp", stampSchema);
 
 module.exports = Stamp;
